@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>حملة تبرعات هالة هشام | رمضان 2026</title>
+    <meta name="description" content="موقع تبرعات متطور لرمضان 2026 باسم هالة هشام - عداد تنازلي حقيقي وتصميم عصري" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: 45 100% 50%; /* Gold */
+            --bg: 220 33% 10%;
+        }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: hsl(220, 33%, 5%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+        .ramadan-gradient {
+            background: linear-gradient(135deg, hsl(220, 33%, 10%) 0%, hsl(260, 50%, 15%) 100%);
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .countdown-item {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        .countdown-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+        .glow {
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+        }
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: twinkle var(--duration) infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        .floating-arrow {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .arabic-pattern {
+            background-image: url('https://www.transparenttextures.com/patterns/arabesque.png');
+            opacity: 0.05;
+        }
+        
+        /* Modal Styles */
+        #payment-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+        }
+        #payment-modal.active {
+            display: flex;
+        }
+        .modal-content {
+            width: 90%;
+            max-width: 500px;
+            animation: modalSlide 0.3s ease-out;
+        }
+        @keyframes modalSlide {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .copy-success {
+            background: #10b981 !important;
+            color: white !important;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Background Decoration -->
+    <div class="fixed inset-0 arabic-pattern pointer-events-none"></div>
+    <div id="stars-container" class="fixed inset-0 pointer-events-none"></div>
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <!-- Main Content -->
+        <main class="relative flex-1 flex flex-col items-center justify-center p-6 text-center">
+            <!-- Header Section -->
+            <header class="mb-12 space-y-4">
+                <div class="inline-block p-2 px-6 rounded-full glass border-yellow-500/30 text-yellow-500 text-sm font-bold mb-4 tracking-widest">
+                    رمضان 2026
+                </div>
+                <h1 class="text-5xl md:text-7xl font-bold bg-gradient-to-r from-yellow-200 via-yellow-500 to-yellow-200 bg-clip-text text-transparent mb-2">
+                    هالة هشام
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                    معاً نصنع الخير في شهر الخير. ساهم معنا في دعم المحتاجين ونشر السعادة.
+                </p>
+            </header>
+
+            <!-- Countdown Section -->
+            <section class="w-full max-w-4xl mb-16">
+                <h2 class="text-lg text-yellow-500/80 mb-6 font-medium flex items-center justify-center gap-2">
+                    <i data-lucide="moon" class="w-5 h-5"></i>
+                    الوقت المتبقي لرمضان المبارك
+                </h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+                    <div class="countdown-item rounded-2xl p-6">
+                        <span id="days" class="text-5xl font-bold block">00</span>
+                        <span class="text-gray-500 text-sm uppercase tracking-widest">يوم</span>
+                    </div>
+                    <div class="countdown-item rounded-2xl p-6">
+                        <span id="hours" class="text-5xl font-bold block">00</span>
+                        <span class="text-gray-500 text-sm uppercase tracking-widest">ساعة</span>
+                    </div>
+                    <div class="countdown-item rounded-2xl p-6">
+                        <span id="minutes" class="text-5xl font-bold block">00</span>
+                        <span class="text-gray-500 text-sm uppercase tracking-widest">دقيقة</span>
+                    </div>
+                    <div class="countdown-item rounded-2xl p-6">
+                        <span id="seconds" class="text-5xl font-bold block text-yellow-500">00</span>
+                        <span class="text-gray-500 text-sm uppercase tracking-widest">ثانية</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA Section -->
+            <section class="flex flex-col items-center gap-8">
+                <div class="floating-arrow text-yellow-500">
+                    <i data-lucide="chevron-down" class="w-8 h-8"></i>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-6">
+                    <button onclick="openPaymentModal()" class="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-4 px-10 rounded-full transition-all hover:scale-105 active:scale-95 flex items-center gap-3 shadow-xl shadow-yellow-500/20">
+                        <i data-lucide="heart" class="w-5 h-5"></i>
+                        تبرع الآن
+                    </button>
+                    <a href="https://wa.me/201021723063" target="_blank" class="glass hover:bg-white/10 text-white font-bold py-4 px-10 rounded-full transition-all hover:scale-105 active:scale-95 border-white/20 flex items-center gap-3">
+                        <i data-lucide="info" class="w-5 h-5"></i>
+                        عن الحملة
+                    </a>
+                </div>
+
+                <!-- Quranic Verse Section -->
+                <div class="mt-12 p-8 rounded-3xl glass border-yellow-500/20 relative overflow-hidden group max-w-2xl mx-auto">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-yellow-500/5 blur-3xl rounded-full -mr-16 -mt-16"></div>
+                    <div class="relative z-10 space-y-4">
+                        <i data-lucide="quote" class="w-8 h-8 text-yellow-500/40 mx-auto rotate-180"></i>
+                        <p class="text-2xl md:text-3xl font-bold text-yellow-500 leading-relaxed mb-4">
+                            "وَمَا تُقَدِّمُوا لِأَنفُسِكُم مِّنْ خَيْرٍ تَجِدُوهُ عِندَ اللَّهِ هُوَ خَيْرًا وَأَعْظَمَ أَجْرًا"
+                        </p>
+                        <div class="flex items-center justify-center gap-3 text-gray-400">
+                            <span class="h-px w-8 bg-gray-700"></span>
+                            <span class="text-sm tracking-widest uppercase">سورة المزمل - آية ٢٠</span>
+                            <span class="h-px w-8 bg-gray-700"></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer Decorations -->
+            <div class="mt-24 text-gray-600 text-sm border-t border-white/5 pt-8 w-full max-w-4xl">
+                <p>© 2026 حملة هالة هشام الرمضانية. جميع الحقوق محفوظة.</p>
+            </div>
+        </main>
+
+        <!-- Sidebar / Results Section -->
+        <!-- Results section removed as per user request -->
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="payment-modal" onclick="closePaymentModal(event)">
+        <div class="modal-content glass rounded-3xl p-8 space-y-6 text-right relative overflow-hidden" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center mb-4">
+                <button onclick="closePaymentModal()" class="text-gray-400 hover:text-white transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+                <h3 class="text-2xl font-bold text-yellow-500">طرق التبرع</h3>
+            </div>
+
+            <!-- Selection Grid -->
+            <div id="method-selection" class="grid grid-cols-2 gap-4">
+                <button onclick="selectPaymentMethod('vodafone')" class="group p-6 rounded-2xl bg-black/40 border border-red-500/20 hover:border-red-500/60 hover:bg-red-500/5 transition-all flex flex-col items-center gap-4">
+                    <div class="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <img src="/attached_assets/vedafone_1770063753174.jpg" alt="Vodafone" class="h-10 w-10 object-contain rounded-full">
+                    </div>
+                    <span class="font-bold text-lg">فودافون كاش</span>
+                </button>
+                <button onclick="selectPaymentMethod('instapay')" class="group p-6 rounded-2xl bg-black/40 border border-purple-500/20 hover:border-purple-500/60 hover:bg-purple-500/5 transition-all flex flex-col items-center gap-4">
+                    <div class="w-16 h-16 rounded-full bg-purple-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <img src="https://www.instapay.eg/assets/images/logo.png" alt="InstaPay" class="h-8 object-contain" onerror="this.src='/attached_assets/inistapay_1770063753172.png'; this.onerror=null;">
+                    </div>
+                    <span class="font-bold text-lg">إنستا باي</span>
+                </button>
+            </div>
+
+            <!-- Details View (Hidden by default) -->
+            <div id="method-details" class="hidden space-y-6 animate__animated animate__fadeInUp">
+                <div class="flex items-center gap-4 mb-2">
+                    <button onclick="showMethodSelection()" class="p-2 hover:bg-white/10 rounded-full transition-colors">
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                    <span id="selected-method-name" class="text-xl font-bold"></span>
+                </div>
+
+                <div id="payment-card" class="bg-black/60 rounded-2xl p-8 border border-white/10 relative overflow-hidden">
+                    <!-- Dynamic background glow based on method -->
+                    <div id="method-glow" class="absolute -top-24 -left-24 w-48 h-48 blur-[80px] opacity-20 pointer-events-none"></div>
+                    
+                    <div class="space-y-6 relative z-10">
+                        <div class="text-center space-y-2">
+                            <span class="text-gray-400 text-sm">رقم المحفظة / الحساب</span>
+                            <div class="text-3xl font-mono tracking-[0.2em] text-white font-bold" id="payment-number">01021723063</div>
+                        </div>
+                        
+                        <button onclick="copyNumber('01021723063', this)" class="w-full py-4 rounded-xl font-bold flex items-center justify-center gap-3 transition-all hover:scale-[1.02] active:scale-[0.98]" id="copy-btn">
+                            <i data-lucide="copy" class="w-5 h-5"></i>
+                            نسخ الرقم
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-gray-400 text-sm text-center">
+                بمجرد التحويل، يمكنك التواصل معنا لتأكيد وصول التبرع عبر 
+                <a href="https://wa.me/201021723063" target="_blank" class="text-yellow-500 hover:text-yellow-400 font-bold underline decoration-dotted transition-colors">تواصل معنا</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Modal Functions
+        function openPaymentModal() {
+            showMethodSelection();
+            document.getElementById('payment-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePaymentModal(event) {
+            document.getElementById('payment-modal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function selectPaymentMethod(method) {
+            const selection = document.getElementById('method-selection');
+            const details = document.getElementById('method-details');
+            const nameEl = document.getElementById('selected-method-name');
+            const glowEl = document.getElementById('method-glow');
+            const copyBtn = document.getElementById('copy-btn');
+            
+            selection.classList.add('hidden');
+            details.classList.remove('hidden');
+            
+            if (method === 'vodafone') {
+                nameEl.innerText = 'فودافون كاش';
+                glowEl.className = 'absolute -top-24 -left-24 w-48 h-48 blur-[80px] opacity-40 pointer-events-none bg-red-500';
+                copyBtn.className = 'w-full py-4 rounded-xl font-bold flex items-center justify-center gap-3 transition-all hover:scale-[1.02] active:scale-[0.98] bg-red-600 hover:bg-red-500 text-white';
+            } else {
+                nameEl.innerText = 'إنستا باي';
+                glowEl.className = 'absolute -top-24 -left-24 w-48 h-48 blur-[80px] opacity-40 pointer-events-none bg-purple-500';
+                copyBtn.className = 'w-full py-4 rounded-xl font-bold flex items-center justify-center gap-3 transition-all hover:scale-[1.02] active:scale-[0.98] bg-purple-600 hover:bg-purple-500 text-white';
+            }
+            lucide.createIcons();
+        }
+
+        function showMethodSelection() {
+            document.getElementById('method-selection').classList.remove('hidden');
+            document.getElementById('method-details').classList.add('hidden');
+        }
+
+        function copyNumber(text, btn) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalContent = btn.innerHTML;
+                btn.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i> تم النسخ`;
+                btn.classList.add('copy-success');
+                lucide.createIcons();
+                setTimeout(() => {
+                    btn.innerHTML = originalContent;
+                    btn.classList.remove('copy-success');
+                    lucide.createIcons();
+                }, 2000);
+            });
+        }
+
+        // Create Animated Stars
+        const starsContainer = document.getElementById('stars-container');
+        if (starsContainer) {
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 3 + 'px';
+                star.style.width = size;
+                star.style.height = size;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Real Countdown for Ramadan 2026
+        // Estimated start of Ramadan 2026: Feb 18, 2026
+        const ramadanDate = new Date('February 18, 2026 00:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = ramadanDate - now;
+
+            const daysEl = document.getElementById('days');
+            const hoursEl = document.getElementById('hours');
+            const minutesEl = document.getElementById('minutes');
+            const secondsEl = document.getElementById('seconds');
+
+            if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
+
+            if (distance < 0) {
+                daysEl.innerHTML = "00";
+                hoursEl.innerHTML = "00";
+                minutesEl.innerHTML = "00";
+                secondsEl.innerHTML = "00";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            daysEl.innerHTML = days.toString().padStart(2, '0');
+            hoursEl.innerHTML = hours.toString().padStart(2, '0');
+            minutesEl.innerHTML = minutes.toString().padStart(2, '0');
+            secondsEl.innerHTML = seconds.toString().padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
